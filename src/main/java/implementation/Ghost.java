@@ -1,14 +1,27 @@
 package implementation;
 
 import static interfaces.Direction.NORTH;
+import static interfaces.Direction.SOUTH;
 
 import interfaces.Direction;
 import interfaces.IGhost;
 import interfaces.Mover;
+import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
 public class Ghost extends Mover {
+
+  public Ghost(PImage image, PVector mapPosition) {
+    this.image = image;
+    this.mapPosition = mapPosition;
+    this.pixelPosition = new PVector();
+    this.currentDirection = SOUTH;
+  }
+
+  public void draw(PApplet app, int scale) {
+    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y);
+  }
 
   @Override
   public void update(int[][] map) {
