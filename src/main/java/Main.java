@@ -2,6 +2,7 @@ import implementation.Game;
 import implementation.Ghost;
 import implementation.Map;
 import implementation.Player;
+import implementation.Light;
 import interfaces.IGame;
 import interfaces.IMap;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class Main extends PApplet {
     Map map = new Map();
     Player player = new Player(this.loadImage("pacman-open.png"), new PVector(3, 3));
     List<Ghost> ghosts = new ArrayList<>();
-    this.game = new Game(map, player, ghosts);
+    Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
+    this.game = new Game(map, player, ghosts, light);
 
   }
 

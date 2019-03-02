@@ -11,16 +11,19 @@ public class Game {
   Player player;
   List<Ghost> ghosts;
   GameStatus gameStatus;
+  Light light;
 
-  public Game(Map map, Player player, List<Ghost> ghosts) {
+  public Game(Map map, Player player, List<Ghost> ghosts, Light light) {
     this.map = map;
     this.player = player;
     this.ghosts = ghosts;
+    this.light = light;
   }
 
   public void update(PApplet app) {
     handleInput(app);
     updatePlayer();
+    updateLight();
     updateGhosts();
     updateGameState();
   }
@@ -52,6 +55,11 @@ public class Game {
     }
   }
 
+  private void updateLight() {
+    light.update(this.player.getPixelPosition());
+  }
+
+
   private void updateGameState() {
     for (Ghost ghost: this.ghosts) {
       if (ghost.getMapPosition().x == player.getMapPosition().x
@@ -67,5 +75,6 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       ghost.draw(app, scale);
     }
+    this.light.draw(app, scale);
   }
 }
