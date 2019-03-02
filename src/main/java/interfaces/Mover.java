@@ -11,6 +11,18 @@ public class Mover {
   public PVector mapPosition;
   public Direction currentDirection;
 
+  public PVector getPixelPosition() {
+    return pixelPosition;
+  }
+
+  public PVector getMapPosition() {
+    return mapPosition;
+  }
+
+  public Direction getCurrentDirection() {
+    return currentDirection;
+  }
+
   public void update(int[][] map) {
 
     convertPixelToMapPosition(DEFAULT_SCALE);
