@@ -1,6 +1,7 @@
 package implementation;
 
 import interfaces.IPlayer;
+import interfaces.Mover;
 
-public class Player implements IPlayer {
+public class Player extends Mover {
 }
