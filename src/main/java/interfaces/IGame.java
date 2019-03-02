@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.List;
 
-public interface IGame {
+public interface IGame extends Drawable {
 
   /*
   Called every frame, does all the stuff

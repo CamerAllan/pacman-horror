@@ -2,7 +2,7 @@ package interfaces;
 
 import processing.core.PVector;
 
-public interface IPlayer {
+public interface IPlayer extends Drawable{
 
   PVector getPos();
 

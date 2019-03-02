@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface IMap {
+public interface IMap extends Drawable {
 
   boolean[][] getGrid();
 

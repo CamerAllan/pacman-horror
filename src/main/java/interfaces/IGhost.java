@@ -2,7 +2,7 @@ package interfaces;
 
 import processing.core.PVector;
 
-public interface IGhost {
+public interface IGhost extends Drawable {
 
   PVector getPos();
 
