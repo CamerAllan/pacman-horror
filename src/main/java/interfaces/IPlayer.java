@@ -2,7 +2,7 @@ package interfaces;
 
 import processing.core.PVector;
 
-public interface Player {
+public interface IPlayer {
 
   PVector getPos();
 

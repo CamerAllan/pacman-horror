@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface Map {
+public interface IMap {
 
   boolean[][] getGrid();
 

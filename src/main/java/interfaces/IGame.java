@@ -2,23 +2,23 @@ package interfaces;
 
 import java.util.List;
 
-public interface Game {
+public interface IGame {
 
   /*
   Called every frame, does all the stuff
    */
   void nextStep();
 
-  Player getPlayer();
+  IPlayer getPlayer();
 
-  List<Ghost> getGhosts();
+  List<IGhost> getGhosts();
 
-  Map getMap();
+  IMap getMap();
 
   /*
   Return ghost if player has collided with a ghost, otherwise null
    */
-  Ghost checkGhostCollision();
+  IGhost checkGhostCollision();
 
   /*
   Moves player in their current direction unless obstacle present

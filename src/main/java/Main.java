@@ -1,9 +1,9 @@
-import interfaces.Game;
+import interfaces.IGame;
 import processing.core.PApplet;
 
 public class Main extends PApplet {
 
-  Game game;
+  IGame game;
 
   public static void main(String[] args) {
     PApplet.runSketch(new String[] { Main.class.getName() }, new Main());

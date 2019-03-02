@@ -2,7 +2,7 @@ package interfaces;
 
 import processing.core.PVector;
 
-public interface Ghost {
+public interface IGhost {
 
   PVector getPos();
 
