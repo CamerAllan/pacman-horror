@@ -1,12 +1,14 @@
 package interfaces;
 
 import implementation.Map;
+import processing.core.PImage;
 import processing.core.PVector;
 
-public class Mover {
+public  abstract class Mover {
   public final int DEFAULT_SCALE = 50;
   public final float DEFAULT_SPEED = 10;
 
+  public PImage image;
   public PVector pixelPosition;
   public PVector mapPosition;
   public Direction currentDirection;
@@ -88,4 +90,5 @@ public class Mover {
       pixelPosition.x -= DEFAULT_SPEED;
     }
   }
+
 }

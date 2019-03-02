@@ -4,7 +4,7 @@ import interfaces.IMap;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Map implements IMap {
+public class Map {
 
     //public int[][] floorplan = new int[21][20];
 
@@ -35,24 +35,22 @@ public class Map implements IMap {
             {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}};
 
 
-    @Override
     public int[][] getGrid() {
         return floorplan;
     }
 
-    @Override
-    public PImage draw(PApplet app) {
+    public PImage draw(PApplet app, int scale) {
 
         app.background(0,0,0);
         for(int i = 0; i< floorplan.length; i++) {
             for(int j = 0; j< floorplan[i].length; j++) {
                 app.fill(107,2,2);
                 if(floorplan[i][j] == 1) {
-                    app.rect((i * 10), (j * 10), 10, 10);
+                    app.rect((i * scale), (j * scale), scale, scale);
                 }
                 app.fill(160,109,0);
                 if(floorplan[i][j] == 2) {
-                    app.ellipse((i * 10)+4, (j * 10)+4, 2, 2);
+                    app.ellipse((i * scale)+4, (j * scale)+4, 2, 2);
                 }
             }
         }

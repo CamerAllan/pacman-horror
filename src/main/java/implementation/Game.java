@@ -61,11 +61,11 @@ public class Game {
     }
   }
 
-  public void draw(PApplet app) {
-    this.map.draw(app);
-    this.player.draw(app);
+  public void draw(PApplet app, int scale) {
+    this.map.draw(app, scale);
+    this.player.draw(app, scale);
     for (Ghost ghost: this.ghosts) {
-      ghost.draw(app);
+      ghost.draw(app, scale);
     }
   }
 }
