@@ -4,12 +4,12 @@ import implementation.Map;
 import processing.core.PVector;
 
 public class Mover {
-  final int DEFAULT_SCALE = 50;
-  final float DEFAULT_SPEED = 10;
+  public final int DEFAULT_SCALE = 50;
+  public final float DEFAULT_SPEED = 10;
 
-  PVector pixelPosition;
-  PVector mapPosition;
-  Direction currentDirection;
+  public PVector pixelPosition;
+  public PVector mapPosition;
+  public Direction currentDirection;
 
   public PVector getPixelPosition() {
     return pixelPosition;
