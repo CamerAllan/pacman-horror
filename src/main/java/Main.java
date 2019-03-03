@@ -3,6 +3,7 @@ import implementation.Ghost;
 import implementation.Map;
 import implementation.Player;
 import implementation.Light;
+import interfaces.GhostPersonality;
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PApplet;
@@ -56,7 +57,7 @@ public class Main extends PApplet {
             this.loadImage("pacman-middle-w.png"),
             new PVector(2, 5));
     List<Ghost> ghosts = new ArrayList<>();
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map, GhostPersonality.RED));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
     this.game = new Game(map, player, ghosts, light);
 
