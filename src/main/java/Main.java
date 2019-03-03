@@ -3,6 +3,7 @@ import implementation.Ghost;
 import implementation.Map;
 import implementation.Player;
 import implementation.Light;
+import interfaces.GhostPersonality;
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PApplet;
@@ -52,11 +53,10 @@ public class Main extends PApplet {
             new PVector(2, 5));
 
     List<Ghost> ghosts = new ArrayList<>();
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(9, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(11, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-red.png"), new PVector(10, 11), map));
-
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map, GhostPersonality.RED));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(9, 11), map, GhostPersonality.PINK));
+    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(11, 11), map, GhostPersonality.BLUE));
+    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map, GhostPersonality.ORANGE));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
     this.game = new Game(this, map, player, ghosts, light);
 
