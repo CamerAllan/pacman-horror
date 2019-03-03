@@ -14,22 +14,28 @@ public class Game {
   public Map map;
   public static Player player;
   private final int SIGHT_DISTANCE = 4;
+  public boolean startedGame = false;
+
 
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
 
   long gameStart;
+  HomePage homePage;
   boolean done = false;
 
   int randomTimer;
 
-  public Game(PApplet app, Map map, Player player, List<Ghost> ghosts, Light light) {
+  public Game(PApplet app, Map map, Player player, List<Ghost> ghosts, Light light, HomePage homePage) {
+
+
     this.map = map;
     this.player = player;
     this.ghosts = ghosts;
     this.light = light;
     seenTimer = app.millis() - 10000;
+    this.homePage = homePage;
     randomTimer = app.millis();
     gameStart = System.currentTimeMillis();
   }
@@ -40,47 +46,49 @@ public class Game {
       this.map.unleash();
     }
 
-    handleInput(app);
-    updatePlayer(app, screamPlayer);
-    updateLight();
-    updateGhosts();
-    updateGameState(deathPlayer, ghostDeathPlayer);
-    int timer = app.millis()-randomTimer; //every 60 seconds the wind changes
-    if (timer >= 10000) {
-      randomTimer = app.millis();
-      int range = (6 - 1) + 1;
-      int randomNum = (int)(Math.random() * range) + 1;
-      switch(randomNum) {
-        case 1:
-          background1Player.rewind();
-          background1Player.play();
-          break;
-        case 2:
-          background2Player.rewind();
-          background2Player.play();
-          break;
-        case 3:
-          background3Player.rewind();
-          background3Player.play();
-          break;
-        case 4:
-          background4Player.rewind();
-          background4Player.play();
-          break;
-        case 5:
-          screechPlayer.rewind();
-          screechPlayer.play();
-          break;
-        case 6:
-          surprisePlayer.rewind();
-          surprisePlayer.play();
-          break;
+    handleInput(app, menuPlayer, movePlayer);
+    if(startedGame) {
+      updatePlayer(app, screamPlayer);
+      updateLight();
+      updateGhosts();
+      updateGameState(deathPlayer, ghostDeathPlayer);
+      int timer = app.millis() - randomTimer; //every 60 seconds the wind changes
+      if (timer >= 10000) {
+        randomTimer = app.millis();
+        int range = (6 - 1) + 1;
+        int randomNum = (int) (Math.random() * range) + 1;
+        switch (randomNum) {
+          case 1:
+            background1Player.rewind();
+            background1Player.play();
+            break;
+          case 2:
+            background2Player.rewind();
+            background2Player.play();
+            break;
+          case 3:
+            background3Player.rewind();
+            background3Player.play();
+            break;
+          case 4:
+            background4Player.rewind();
+            background4Player.play();
+            break;
+          case 5:
+            screechPlayer.rewind();
+            screechPlayer.play();
+            break;
+          case 6:
+            surprisePlayer.rewind();
+            surprisePlayer.play();
+            break;
+        }
       }
     }
   }
 
-  private void handleInput(PApplet app) {
-    if (app.keyPressed) {
+  private void handleInput(PApplet app, AudioPlayer menuPlayer, AudioPlayer movePlayer) {
+    if (app.keyPressed && startedGame) {
       switch (app.keyCode) {
         case PApplet.UP: {
           player.changeDirection(Direction.NORTH, map.getGrid());
@@ -99,6 +107,11 @@ public class Game {
           break;
         }
       }
+    }
+    else if(app.keyPressed && app.key == ' ') {
+        menuPlayer.pause();
+        startedGame = true;
+        movePlayer.loop();
     }
   }
 
@@ -155,25 +168,31 @@ public class Game {
             done = true;
           }
         }
+
       }
     }
   }
 
   public void draw(PApplet app) {
-    this.map.draw(app);
-    this.player.draw(app);
-    for (Ghost ghost: this.ghosts) {
-      ghost.draw(app, System.currentTimeMillis() - player.powerUpGot < POWERUP_TIME);
+    if(!startedGame) {
+      homePage.draw(app);
     }
+    else {
+        this.map.draw(app);
+        this.player.draw(app);
+        for (Ghost ghost: this.ghosts) {
+            ghost.draw(app, System.currentTimeMillis() - player.powerUpGot < POWERUP_TIME);
+        }
 
-//    this.light.draw(app);
+    this.light.draw(app);
 
-    app.color(255);
-    app.textSize(30);
-    app.textMode(PConstants.CENTER);
-    app.text(this.player.score, app.width / 2, 100);
-    if (this.gameStatus == GameStatus.LOST){
-      app.text("You lose!", app.width / 2, 200);
+        app.color(255);
+        app.textSize(30);
+        app.textMode(PConstants.CENTER);
+        app.text(this.player.score, app.width / 2, 100);
+        if (this.gameStatus == GameStatus.LOST){
+            app.text("You lose!", app.width / 2, 200);
+        }
     }
   }
 }

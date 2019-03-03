@@ -3,6 +3,9 @@ import implementation.Ghost;
 import implementation.Map;
 import implementation.Player;
 import implementation.Light;
+import interfaces.GhostPersonality;
+import implementation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PApplet;
@@ -52,13 +55,13 @@ public class Main extends PApplet {
             new PVector(2, 5));
 
     List<Ghost> ghosts = new ArrayList<>();
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), this.loadImage("ghost-eatable.png"), new PVector(9, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), this.loadImage("ghost-eatable.png"), new PVector(11, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), this.loadImage("ghost-eatable.png"),new PVector(10, 11), map));
-    ghosts.add(new Ghost(this.loadImage("ghost-red.png"), this.loadImage("ghost-eatable.png"), new PVector(10, 11), map));
-
+    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"),this.loadImage("ghost-eatable.png"), new PVector(10, 11), map, GhostPersonality.ORANGE));
+    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"),this.loadImage("ghost-eatable.png"), new PVector(10, 11), map, GhostPersonality.PINK));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"),this.loadImage("ghost-eatable.png"), new PVector(10, 11), map, GhostPersonality.BLUE));
+    ghosts.add(new Ghost(this.loadImage("ghost-red.png"),this.loadImage("ghost-eatable.png"), new PVector(10, 11), map, GhostPersonality.RED));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
-    this.game = new Game(this, map, player, ghosts, light);
+    HomePage homePage = new HomePage(this.createFont("pixelFont.ttf", 32));
+    this.game = new Game(this,map, player, ghosts, light, homePage);
 
     System.out.println(sketchPath());
     minim = new Minim(this);
@@ -79,9 +82,9 @@ public class Main extends PApplet {
 //    deathPlayer.rewind();
 //    deathPlayer.play();
 
-   // menuPlayer.loop();
+    menuPlayer.loop();
 
-    movePlayer.loop();
+//    movePlayer.loop();
 
   }
 
