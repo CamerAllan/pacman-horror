@@ -28,9 +28,9 @@ public  abstract class Mover {
     return currentDirection;
   }
 
-  public void update(int[][] map) {
+  public void update(Map map) {
     convertPixelToMapPosition();
-    updatePixelPosition(map);
+    updatePixelPosition(map.getGrid());
   }
 
   public int p2M(float pixelFloat) {

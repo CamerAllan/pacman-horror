@@ -23,9 +23,9 @@ public class Ghost extends Mover {
   }
 
   @Override
-  public void update(int[][] map) {
+  public void update(Map map) {
     convertPixelToMapPosition();
-    updatePixelPosition(map);
+    updatePixelPosition(map.getGrid());
     makeGhostDirectionChoice();
   }
 

@@ -81,4 +81,8 @@ public class Map {
 
         return null;
     }
+
+    public void eat(int x, int y) {
+      this.floorplan[x][y] = 0;
+    }
 }

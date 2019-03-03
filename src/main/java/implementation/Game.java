@@ -52,12 +52,12 @@ public class Game {
   }
 
   private void updatePlayer() {
-    player.update(this.map.getGrid());
+    player.update(this.map);
   }
 
   private void updateGhosts() {
     for (Ghost ghost: this.ghosts) {
-      ghost.update(this.map.getGrid());
+      ghost.update(this.map);
     }
   }
 
