@@ -18,7 +18,7 @@ public class AStarSearch {
     for (int row = 0; row < map.length; row++) {
       graph[row] = new AStarNode[map[row].length] ;
       for (int col = 0; col < map[row].length; col++) {
-        if (map[row][col] == 0 || map[row][col] == 2)
+        if (map[row][col] != 1)
           graph[row][col] = new AStarNode(row, col) ;
         else
           graph[row][col] = null ;

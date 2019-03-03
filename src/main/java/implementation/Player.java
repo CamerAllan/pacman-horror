@@ -22,6 +22,8 @@ public class Player extends Mover {
 
   int imageCounter;
 
+  long powerUpGot;
+
   public Player(PImage image,  PImage imageMiddleN, PImage imageOpenN, PImage imageMiddleS,
                 PImage imageOpenS, PImage imageMiddleE, PImage imageOpenE, PImage imageMiddleW,
                 PImage imageOpenW, PVector mapPosition) {
@@ -41,6 +43,7 @@ public class Player extends Mover {
     this.imageOpenW = imageOpenW;
     imageCounter = 0;
     this.score = 0;
+    this.powerUpGot = 0;
   }
 
   public void draw(PApplet app) {
@@ -84,6 +87,12 @@ public class Player extends Mover {
     if (map.getGrid()[(int) this.mapPosition.x][(int) this.mapPosition.y] == 2) {
       map.eat((int) this.mapPosition.x, (int) this.mapPosition.y);
       score++;
+    }
+
+    if (map.getGrid()[(int) this.mapPosition.x][(int) this.mapPosition.y] == 3) {
+      map.eat((int) this.mapPosition.x, (int) this.mapPosition.y);
+      score++;
+      powerUpGot = System.currentTimeMillis();
     }
 
     if ((int) this.mapPosition.x == 0 && (int) this.mapPosition.y == 11) {

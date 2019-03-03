@@ -10,11 +10,6 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
-import ddf.minim.signals.*;
-import ddf.minim.spi.*;
-import ddf.minim.ugens.*;
 
 public class Main extends PApplet {
 
@@ -56,10 +51,14 @@ public class Main extends PApplet {
             this.loadImage("pacman-open-w.png"),
             this.loadImage("pacman-middle-w.png"),
             new PVector(2, 5));
+
     List<Ghost> ghosts = new ArrayList<>();
     ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map, GhostPersonality.RED));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(9, 11), map, GhostPersonality.PINK));
+    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(11, 11), map, GhostPersonality.BLUE));
+    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map, GhostPersonality.ORANGE));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
-    this.game = new Game(map, player, ghosts, light);
+    this.game = new Game(this, map, player, ghosts, light);
 
     System.out.println(sketchPath());
     minim = new Minim(this);
@@ -82,10 +81,12 @@ public class Main extends PApplet {
 
    // menuPlayer.loop();
 
+    movePlayer.loop();
+
   }
 
   public void draw() {
-    this.game.update(this);
+    this.game.update(this, menuPlayer, background1Player, background2Player, background3Player, background4Player, movePlayer, deathPlayer, yumPlayer, ghostDeathPlayer, screamPlayer, screechPlayer, surprisePlayer);
     this.game.draw(this);
   }
 }

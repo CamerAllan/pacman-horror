@@ -1,5 +1,6 @@
 package implementation;
 
+import ddf.minim.AudioPlayer;
 import interfaces.Direction;
 import interfaces.GameStatus;
 import java.util.List;
@@ -8,27 +9,73 @@ import processing.core.PConstants;
 
 public class Game {
 
+  public static final int POWERUP_TIME = 3000;
+
   public Map map;
   public static Player player;
   private final int SIGHT_DISTANCE = 4;
-  
+
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
 
-  public Game(Map map, Player player, List<Ghost> ghosts, Light light) {
+  long gameStart = 0;
+  boolean done = false;
+
+  int randomTimer;
+
+  public Game(PApplet app, Map map, Player player, List<Ghost> ghosts, Light light) {
     this.map = map;
     this.player = player;
     this.ghosts = ghosts;
     this.light = light;
+    seenTimer = app.millis();
+    randomTimer = app.millis();
   }
 
-  public void update(PApplet app) {
+  public void update(PApplet app, AudioPlayer menuPlayer, AudioPlayer background1Player, AudioPlayer background2Player, AudioPlayer background3Player, AudioPlayer background4Player, AudioPlayer movePlayer, AudioPlayer deathPlayer, AudioPlayer yumPlayer, AudioPlayer ghostDeathPlayer, AudioPlayer screamPlayer, AudioPlayer screechPlayer, AudioPlayer surprisePlayer) {
+
+    if (System.currentTimeMillis() - this.gameStart > 5000) {
+      this.map.unleash();
+    }
+
     handleInput(app);
-    updatePlayer();
+    updatePlayer(app, screamPlayer);
     updateLight();
     updateGhosts();
-    updateGameState();
+    updateGameState(deathPlayer);
+    int timer = app.millis()-randomTimer; //every 60 seconds the wind changes
+    if (timer >= 10000) {
+      randomTimer = app.millis();
+      int range = (6 - 1) + 1;
+      int randomNum = (int)(Math.random() * range) + 1;
+      switch(randomNum) {
+        case 1:
+          background1Player.rewind();
+          background1Player.play();
+          break;
+        case 2:
+          background2Player.rewind();
+          background2Player.play();
+          break;
+        case 3:
+          background3Player.rewind();
+          background3Player.play();
+          break;
+        case 4:
+          background4Player.rewind();
+          background4Player.play();
+          break;
+        case 5:
+          screechPlayer.rewind();
+          screechPlayer.play();
+          break;
+        case 6:
+          surprisePlayer.rewind();
+          surprisePlayer.play();
+          break;
+      }
+    }
   }
 
   private void handleInput(PApplet app) {
@@ -54,11 +101,20 @@ public class Game {
     }
   }
 
-  private void updatePlayer() {
+  int seenTimer;
+
+  private void updatePlayer(PApplet app, AudioPlayer screamPlayer) {
+
     player.update(this.map);
     for (Ghost ghost : this.ghosts) {
       double distance = Math.sqrt(Math.pow(ghost.getMapPosition().x - player.getMapPosition().x, 2) + Math.pow(ghost.getMapPosition().y - player.getMapPosition().y, 2));
       if (distance < SIGHT_DISTANCE) {
+        int timer = app.millis()-seenTimer; //every 60 seconds the wind changes
+        if (timer >= 10000) {
+          seenTimer = app.millis();
+          screamPlayer.rewind();
+          screamPlayer.play();
+        }
         System.out.println("I c u");
       }
     }
@@ -75,11 +131,17 @@ public class Game {
   }
 
 
-  private void updateGameState() {
+  private void updateGameState(AudioPlayer deathPlayer) {
     for (Ghost ghost: this.ghosts) {
       if (ghost.getMapPosition().x == player.getMapPosition().x
           && ghost.getMapPosition().y == player.getMapPosition().y) {
         this.gameStatus = GameStatus.LOST;
+        if(!done) {
+          deathPlayer.rewind();
+          deathPlayer.play();
+          done = true;
+        }
+
       }
     }
   }
@@ -90,7 +152,9 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       ghost.draw(app);
     }
+
     this.light.draw(app);
+
     app.color(255);
     app.textSize(30);
     app.textMode(PConstants.CENTER);
