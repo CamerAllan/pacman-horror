@@ -31,7 +31,7 @@ public class Ghost extends Mover {
     this.pixelPosition = new PVector();
     this.currentDirection = SOUTH;
     this.convertMapToPixelPosition();
-    this.pathFinder = new AStarSearch(map.getGrid());
+    this.pathFinder = new AStarSearch(map.getAIGrid());
     this.personality = personality;
     this.lastRecordedTime = second();
   }
@@ -104,10 +104,14 @@ public class Ghost extends Mover {
     if (random.nextInt(10) == 1) {
       return Direction.randomDirection();
     } else {
+      try {
         ArrayList<AStarNode> result = pathFinder
             .search((int) Game.player.mapPosition.x, (int) Game.player.mapPosition.y,
                 (int) this.mapPosition.x, (int) this.mapPosition.y);
         return getDirectionToAStarNodeChase(result);
+      } catch (NullPointerException e) {
+        return currentDirection;
+      }
     }
   }
 
