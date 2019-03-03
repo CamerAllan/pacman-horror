@@ -10,7 +10,6 @@ public class Player extends Mover {
 
   int score;
 
-  public Player(PImage image, PVector mapPosition) {
   PImage imageMiddleN;
   PImage imageOpenN;
   PImage imageMiddleS;
