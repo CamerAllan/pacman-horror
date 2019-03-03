@@ -4,6 +4,7 @@ import interfaces.Direction;
 import interfaces.GameStatus;
 import java.util.List;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 public class Game {
 
@@ -90,5 +91,9 @@ public class Game {
       ghost.draw(app);
     }
     this.light.draw(app);
+    app.color(255);
+    app.textSize(30);
+    app.textMode(PConstants.CENTER);
+    app.text(this.player.score, app.width / 2, 100);
   }
 }
