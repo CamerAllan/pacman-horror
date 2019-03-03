@@ -48,7 +48,7 @@ public class Ghost extends Mover {
 
   public void makeGhostDirectionChoice(int[][] map) {
     // TODO: Make smarter. Add A* decision sometimes. Add choosing random not including current dirrection
-    Direction nextDirection = scatterMode();
+    Direction nextDirection = chaseMode();
 
     super.changeDirection(nextDirection, map);
   }
