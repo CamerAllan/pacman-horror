@@ -9,14 +9,17 @@ import processing.core.PConstants;
 
 public class Game {
 
+  public static final int POWERUP_TIME = 3000;
+
   public Map map;
   public static Player player;
   private final int SIGHT_DISTANCE = 4;
-  
+
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
 
+  long gameStart = 0;
   boolean done = false;
 
   int randomTimer;
@@ -31,6 +34,11 @@ public class Game {
   }
 
   public void update(PApplet app, AudioPlayer menuPlayer, AudioPlayer background1Player, AudioPlayer background2Player, AudioPlayer background3Player, AudioPlayer background4Player, AudioPlayer movePlayer, AudioPlayer deathPlayer, AudioPlayer yumPlayer, AudioPlayer ghostDeathPlayer, AudioPlayer screamPlayer, AudioPlayer screechPlayer, AudioPlayer surprisePlayer) {
+
+    if (System.currentTimeMillis() - this.gameStart > 5000) {
+      this.map.unleash();
+    }
+
     handleInput(app);
     updatePlayer(app, screamPlayer);
     updateLight();
@@ -144,7 +152,9 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       ghost.draw(app);
     }
+
     this.light.draw(app);
+
     app.color(255);
     app.textSize(30);
     app.textMode(PConstants.CENTER);
