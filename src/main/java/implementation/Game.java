@@ -18,7 +18,7 @@ public class Game {
 
 
   List<Ghost> ghosts;
-  GameStatus gameStatus;
+  public GameStatus gameStatus;
   Light light;
 
   long gameStart;
@@ -130,7 +130,6 @@ public class Game {
           screamPlayer.rewind();
           screamPlayer.play();
         }
-        System.out.println("I c u");
       }
     }
   }
@@ -193,9 +192,9 @@ public class Game {
         app.color(255);
         app.textSize(30);
         app.textMode(PConstants.CENTER);
-        app.text(this.player.score, app.width / 2, 100);
+        app.text("Score: " + this.player.score, app.width / 3 + 20, app.height - 10);
         if (this.gameStatus == GameStatus.LOST){
-            app.text("You lose!", app.width / 2, 200);
+            app.text("You lose!", app.width / 3 + 20, app.height - 200);
         }
     }
 
