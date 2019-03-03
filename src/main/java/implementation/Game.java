@@ -8,10 +8,10 @@ import processing.core.PConstants;
 
 public class Game {
 
+  public Map map;
+  public static Player player;
   private final int SIGHT_DISTANCE = 4;
-
-  Map map;
-  Player player;
+  
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
