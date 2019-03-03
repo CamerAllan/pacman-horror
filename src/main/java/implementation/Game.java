@@ -139,8 +139,10 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       if (System.currentTimeMillis() - player.powerUpGot < POWERUP_TIME) {
         // CHANGE BEHAVIOUR BASED ON EDIBILITY
+        ghost.scaredUpdate(this.map);
+      } else {
+        ghost.update(this.map);
       }
-      ghost.update(this.map);
     }
   }
 

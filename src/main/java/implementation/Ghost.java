@@ -54,6 +54,12 @@ public class Ghost extends Mover {
     makeGhostDirectionChoice(map.getAIGrid());
   }
 
+  public void scaredUpdate(Map map) {
+    convertPixelToMapPosition();
+    updatePixelPosition(map.getAIGrid());
+    makeScaredGhostDirectionChoice(map.getAIGrid());
+  }
+
 //  @Override
 //  public void convertPixelToMapPosition() {
 //    mapPosition.x = Math.round((pixelPosition.x)  / (float) Constants.SCALE);
@@ -85,17 +91,23 @@ public class Ghost extends Mover {
     super.changeDirection(nextDirection, map);
   }
 
+  public void makeScaredGhostDirectionChoice(int[][] map) {
+    // TODO: Make smarter. Add A* decision sometimes. Add choosing random not including current dirrection
+    Direction nextDirection = scatterMode();
+
+    super.changeDirection(nextDirection, map);
+  }
+
   public Direction chaseMode() {
     Random random = new Random();
 
     if (random.nextInt(10) == 1) {
       return Direction.randomDirection();
     } else {
-      ArrayList<AStarNode> result = pathFinder
-          .search((int) Game.player.mapPosition.x, (int) Game.player.mapPosition.y,
-              (int) this.mapPosition.x, (int) this.mapPosition.y);
-
-      return getDirectionToAStarNodeChase(result);
+        ArrayList<AStarNode> result = pathFinder
+            .search((int) Game.player.mapPosition.x, (int) Game.player.mapPosition.y,
+                (int) this.mapPosition.x, (int) this.mapPosition.y);
+        return getDirectionToAStarNodeChase(result);
     }
   }
 

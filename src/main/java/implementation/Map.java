@@ -119,20 +119,16 @@ public class Map {
     }
 
     public void unleash() {
-        this.floorplan[9][10] = 0;
-        this.floorplan[11][10] = 0;
-        this.floorplan[10][12] = 0;
-        this.floorplanAI[9][10] = 0;
-        this.floorplanAI[11][10] = 0;
-        this.floorplanAI[10][12] = 0;
+        this.floorplan[8][11] = 0;
+        this.floorplan[12][11] = 0;
+        this.floorplanAI[8][11] = 0;
+        this.floorplanAI[12][11] = 0;
     }
 
     public void leash() {
-        this.floorplan[9][10] = 1;
-        this.floorplan[11][10] = 1;
-        this.floorplan[10][12] = 1;
-        this.floorplanAI[9][10] = 1;
-        this.floorplanAI[11][10] = 1;
-        this.floorplanAI[10][12] = 1;
+        this.floorplan[8][11] = 1;
+        this.floorplan[12][11] = 1;
+        this.floorplanAI[8][11] = 1;
+        this.floorplanAI[12][11] = 1;
     }
 }
