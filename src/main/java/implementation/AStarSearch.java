@@ -100,7 +100,7 @@ public class AStarSearch {
   }
 
   // Start the A* search for a path between the specified points
-  public ArrayList<AStarNode> search(int sourceRow, int sourceCol, int goalRow, int goalCol) {
+  public ArrayList<AStarNode> search(int sourceRow, int sourceCol, int goalRow, int goalCol) throws NullPointerException {
     reset() ;
     // initialise the open list
     open = new ArrayList<AStarNode>() ;
