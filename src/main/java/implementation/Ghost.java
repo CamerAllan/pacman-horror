@@ -1,6 +1,7 @@
 package implementation;
 
 import static interfaces.Direction.SOUTH;
+import static processing.core.PApplet.second;
 
 import interfaces.Direction;
 import interfaces.GhostPersonality;
@@ -17,6 +18,10 @@ public class Ghost extends Mover {
   GhostPersonality personality;
   int scatterPathCornerCounter = 0;
   ArrayList<AStarNode> currentScatterPath;
+  int lastRecordedTime;
+  int chaseTime = 20;
+  int scatterTime = 7;
+  int behaviourSwitchCount = 1;
 
   public Ghost(PImage image, PVector mapPosition, Map map, GhostPersonality personality) {
     this.image = image;
@@ -26,6 +31,7 @@ public class Ghost extends Mover {
     this.convertMapToPixelPosition();
     this.pathFinder = new AStarSearch(map.getGrid());
     this.personality = personality;
+    this.lastRecordedTime = second();
   }
 
   public void draw(PApplet app) {
@@ -48,7 +54,25 @@ public class Ghost extends Mover {
 
   public void makeGhostDirectionChoice(int[][] map) {
     // TODO: Make smarter. Add A* decision sometimes. Add choosing random not including current dirrection
-    Direction nextDirection = chaseMode();
+    Direction nextDirection;
+
+    if (behaviourSwitchCount % 2 == 1) {
+      // Scatter mode
+      if (second() - scatterTime > lastRecordedTime) {
+        behaviourSwitchCount++;
+        lastRecordedTime = second();
+      }
+
+      nextDirection = scatterMode();
+    } else {
+      // Chase mode
+      if (second() - chaseTime > lastRecordedTime) {
+        behaviourSwitchCount++;
+        lastRecordedTime = second();
+      }
+
+      nextDirection = chaseMode();
+    }
 
     super.changeDirection(nextDirection, map);
   }
