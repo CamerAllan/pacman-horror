@@ -95,5 +95,8 @@ public class Game {
     app.textSize(30);
     app.textMode(PConstants.CENTER);
     app.text(this.player.score, app.width / 2, 100);
+    if (this.gameStatus == GameStatus.LOST){
+      app.text("You lose!", app.width / 2, 200);
+    }
   }
 }
