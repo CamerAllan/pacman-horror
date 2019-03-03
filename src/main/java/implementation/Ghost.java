@@ -61,11 +61,57 @@ public class Ghost extends Mover {
     } else {
       ArrayList<AStarNode> result = pathFinder.search((int) Game.player.mapPosition.x, (int) Game.player.mapPosition.y, (int) this.mapPosition.x, (int) this.mapPosition.y) ;
 
-      return getDirectionToAStarNode(result);
+      return getDirectionToAStarNodeChase(result);
     }
   }
 
-  public Direction getDirectionToAStarNode(ArrayList<AStarNode> result) {
+  public Direction getDirectionToAStarNodeScatter(ArrayList<AStarNode> result) {
+    // failure is represented as a null return
+    if (result != null && result.size() > 0) {
+      AStarNode nextNode = result.get(result.size() - 1);
+
+      if (nextNode.getRow() == (int) mapPosition.x && nextNode.getCol() == (int) mapPosition.y) {
+        if (result.size() > 1) {
+          result.remove(result.size() - 1);
+          nextNode = result.get(result.size() - 1);
+        } else {
+          scatterPathCornerCounter++;
+          return currentDirection;
+        }
+      }
+
+      if (nextNode.getCol() < (int) mapPosition.y) {
+        return Direction.NORTH;
+      } else if (nextNode.getCol() > (int) mapPosition.y) {
+        return Direction.SOUTH;
+      } else if (nextNode.getRow() < (int) mapPosition.x) {
+        return Direction.WEST;
+      } else if (nextNode.getRow() > (int) mapPosition.x) {
+        return Direction.EAST;
+      }
+    }
+
+    scatterPathCornerCounter++;
+    return currentDirection;
+  }
+
+
+  public Direction scatterMode() {
+    switch (personality) {
+      case RED:
+        return getScatterDirection(Constants.redScatterCorners);
+      case PINK:
+        return getScatterDirection(Constants.pinkScatterCorners);
+      case BLUE:
+        return getScatterDirection(Constants.blueScatterCorners);
+      case ORANGE:
+        return getScatterDirection(Constants.orangeScatterCorners);
+      default:
+        return currentDirection;
+    }
+  }
+
+  public Direction getDirectionToAStarNodeChase(ArrayList<AStarNode> result) {
     // failure is represented as a null return
     if (result != null && result.size() > 0) {
       AStarNode nextNode = result.get(0);
@@ -92,42 +138,15 @@ public class Ghost extends Mover {
     return currentDirection;
   }
 
-
-  public Direction scatterMode() {
-    switch (personality) {
-      case RED:
-        getScatterDirection(Constants.redScatterCorners);
-        break;
-      case PINK:
-        getScatterDirection(Constants.pinkScatterCorners);
-        break;
-      case BLUE:
-        getScatterDirection(Constants.blueScatterCorners);
-        break;
-      case ORANGE:
-        getScatterDirection(Constants.orangeScatterCorners);
-        break;
-      default:
-        return currentDirection;
-    }
-    return currentDirection;
-  }
-
   public Direction getScatterDirection(int[][] scatterCorners) {
-    if (currentScatterPath == null || currentScatterPath.size() == 0) {
+    try {
       currentScatterPath = pathFinder.search((int) mapPosition.x, (int) mapPosition.y,
-          scatterCorners[scatterPathCornerCounter % 4][0], scatterCorners[scatterPathCornerCounter % 4][1]);
-        scatterPathCornerCounter++;
+          scatterCorners[scatterPathCornerCounter % 4][0],
+          scatterCorners[scatterPathCornerCounter % 4][1]);
+      return getDirectionToAStarNodeScatter(currentScatterPath);
+    } catch (Exception e) {
+      return currentDirection;
     }
-
-    if (currentScatterPath != null && currentScatterPath.size() > 0) {
-      AStarNode nextNode = currentScatterPath.get(0);
-      if (nextNode.getRow() == (int) mapPosition.x && nextNode.getCol() == (int) mapPosition.y) {
-        currentScatterPath.remove(0);
-      }
-    }
-
-    return getDirectionToAStarNode(currentScatterPath);
   }
 
 }

@@ -53,10 +53,10 @@ public class Main extends PApplet {
             new PVector(2, 5));
 
     List<Ghost> ghosts = new ArrayList<>();
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map, GhostPersonality.RED));
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(9, 11), map, GhostPersonality.PINK));
-    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(11, 11), map, GhostPersonality.BLUE));
-    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map, GhostPersonality.ORANGE));
+    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(10, 11), map, GhostPersonality.ORANGE));
+    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map, GhostPersonality.PINK));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(10, 11), map, GhostPersonality.BLUE));
+    ghosts.add(new Ghost(this.loadImage("ghost-red.png"), new PVector(10, 11), map, GhostPersonality.RED));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
     this.game = new Game(this, map, player, ghosts, light);
 

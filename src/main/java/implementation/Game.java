@@ -153,7 +153,7 @@ public class Game {
       ghost.draw(app);
     }
 
-    this.light.draw(app);
+//    this.light.draw(app);
 
     app.color(255);
     app.textSize(30);
