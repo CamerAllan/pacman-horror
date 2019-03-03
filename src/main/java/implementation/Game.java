@@ -36,6 +36,7 @@ public class Game {
     this.light = light;
     seenTimer = app.millis() - 10000;
     this.homePage = homePage;
+    seenTimer = app.millis();
     randomTimer = app.millis();
     gameStart = System.currentTimeMillis();
   }
@@ -48,42 +49,42 @@ public class Game {
 
     handleInput(app, menuPlayer, movePlayer);
     if(startedGame) {
-      updatePlayer(app, screamPlayer);
-      updateLight();
-      updateGhosts();
-      updateGameState(deathPlayer, ghostDeathPlayer);
-      int timer = app.millis() - randomTimer; //every 60 seconds the wind changes
-      if (timer >= 10000) {
-        randomTimer = app.millis();
-        int range = (6 - 1) + 1;
-        int randomNum = (int) (Math.random() * range) + 1;
-        switch (randomNum) {
-          case 1:
-            background1Player.rewind();
-            background1Player.play();
-            break;
-          case 2:
-            background2Player.rewind();
-            background2Player.play();
-            break;
-          case 3:
-            background3Player.rewind();
-            background3Player.play();
-            break;
-          case 4:
-            background4Player.rewind();
-            background4Player.play();
-            break;
-          case 5:
-            screechPlayer.rewind();
-            screechPlayer.play();
-            break;
-          case 6:
-            surprisePlayer.rewind();
-            surprisePlayer.play();
-            break;
+        updatePlayer(app, screamPlayer);
+        updateLight();
+        updateGhosts();
+        updateGameState(deathPlayer, ghostDeathPlayer);
+        int timer = app.millis() - randomTimer; //every 60 seconds the wind changes
+        if (timer >= 10000) {
+            randomTimer = app.millis();
+            int range = (6 - 1) + 1;
+            int randomNum = (int) (Math.random() * range) + 1;
+            switch (randomNum) {
+                case 1:
+                    background1Player.rewind();
+                    background1Player.play();
+                    break;
+                case 2:
+                    background2Player.rewind();
+                    background2Player.play();
+                    break;
+                case 3:
+                    background3Player.rewind();
+                    background3Player.play();
+                    break;
+                case 4:
+                    background4Player.rewind();
+                    background4Player.play();
+                    break;
+                case 5:
+                    screechPlayer.rewind();
+                    screechPlayer.play();
+                    break;
+                case 6:
+                    surprisePlayer.rewind();
+                    surprisePlayer.play();
+                    break;
+            }
         }
-      }
     }
   }
 
@@ -129,6 +130,7 @@ public class Game {
           screamPlayer.rewind();
           screamPlayer.play();
         }
+        System.out.println("I c u");
       }
     }
   }
@@ -184,7 +186,7 @@ public class Game {
             ghost.draw(app, System.currentTimeMillis() - player.powerUpGot < POWERUP_TIME);
         }
 
-    this.light.draw(app);
+        this.light.draw(app);
 
         app.color(255);
         app.textSize(30);
@@ -194,5 +196,6 @@ public class Game {
             app.text("You lose!", app.width / 2, 200);
         }
     }
+
   }
 }
