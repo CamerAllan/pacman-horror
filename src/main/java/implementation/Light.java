@@ -20,7 +20,7 @@ public class Light {
         this.position = playerPosition;
     }
 
-    public void draw(PApplet app, int scale) {
+    public void draw(PApplet app) {
         app.imageMode(CENTER);
         app.image(this.image, this.position.x, this.position.y);
     }

@@ -3,8 +3,6 @@ import implementation.Ghost;
 import implementation.Map;
 import implementation.Player;
 import implementation.Light;
-import interfaces.IGame;
-import interfaces.IMap;
 import java.util.ArrayList;
 import java.util.List;
 import processing.core.PApplet;
@@ -19,7 +17,7 @@ public class Main extends PApplet {
   }
 
   public void settings() {
-    size((int) displayWidth / 2, (int) displayHeight / 2);
+    size(displayHeight / 2, displayHeight / 2);
   }
 
   public void setup() {
