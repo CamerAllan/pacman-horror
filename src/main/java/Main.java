@@ -23,7 +23,7 @@ public class Main extends PApplet {
 
   public void setup() {
     Map map = new Map();
-    Player player = new Player(this.loadImage("pacman-open.png"), new PVector(11, 10));
+    Player player = new Player(this.loadImage("pacman-open.png"), new PVector(2, 5));
     List<Ghost> ghosts = new ArrayList<>();
     this.game = new Game(map, player, ghosts);
 

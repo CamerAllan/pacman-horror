@@ -7,7 +7,9 @@ import processing.core.PImage;
 import processing.core.PVector;
 
 public  abstract class Mover {
-  public final float DEFAULT_SPEED = 0.5f;
+
+  public static final float FLUFF = ((float) Constants.SCALE) / 5f;
+  public final float DEFAULT_SPEED = 1f;
 
   public PImage image;
   public PVector pixelPosition;
@@ -50,8 +52,68 @@ public  abstract class Mover {
     pixelPosition.y = mapPosition.y * Constants.SCALE;
   }
 
-  public void changeDirection(Direction moveDirection) {
-    currentDirection = moveDirection;
+  public void changeDirection(Direction moveDirection, int[][] map) {
+    switch(moveDirection) {
+      case NORTH:
+        attemptNorthTurn(map);
+        break;
+      case EAST:
+        attemptEastTurn(map);
+        break;
+      case SOUTH:
+        attemptSouthTurn(map);
+        break;
+      case WEST:
+        attemptWestTurn(map);
+        break;
+      default:
+//        currentDirection = moveDirection;
+    }
+  }
+
+  public void attemptNorthTurn(int[][] map) {
+    PVector northSpacePVector = new PVector(p2M(pixelPosition.x), p2M(pixelPosition.y));
+
+    if (currentDirection == Direction.NONE
+        || currentDirection == Direction.SOUTH
+        || ((map[(int) northSpacePVector.x][(int) northSpacePVector.y - 1] != 1) && pixelPosition.x > (northSpacePVector.x * Constants.SCALE) - FLUFF && pixelPosition.x < (northSpacePVector.x * Constants.SCALE) + FLUFF)
+    ) {
+      currentDirection = Direction.NORTH;
+    }
+  }
+
+  public void attemptSouthTurn(int[][] map) {
+    PVector southSpacePVector = new PVector(p2M(pixelPosition.x), p2M(pixelPosition.y));
+
+    if (currentDirection == Direction.NONE
+        || currentDirection == Direction.NORTH
+        || (map[(int) southSpacePVector.x][(int) southSpacePVector.y + 1] != 1 && pixelPosition.x > (southSpacePVector.x * Constants.SCALE) - FLUFF && pixelPosition.x < (southSpacePVector.x * Constants.SCALE) + FLUFF)
+    ) {
+      currentDirection = Direction.SOUTH;
+    }
+  }
+
+  public void attemptEastTurn(int[][] map) {
+    PVector eastSpacePVector = new PVector(p2M(pixelPosition.x), p2M(pixelPosition.y));
+
+    if (currentDirection == Direction.NONE
+        || currentDirection == Direction.WEST
+        || (map[(int) eastSpacePVector.x + 1][(int) eastSpacePVector.y] != 1 && pixelPosition.y > (eastSpacePVector.y * Constants.SCALE) - FLUFF && pixelPosition.y < (eastSpacePVector.y * Constants.SCALE) + FLUFF)
+    ) {
+      currentDirection = Direction.EAST;
+    }
+  }
+
+  public void attemptWestTurn(int[][] map) {
+    PVector westSpacePVector = new PVector(p2M(pixelPosition.x), p2M(pixelPosition.y));
+
+    if (
+        currentDirection == Direction.NONE
+        || currentDirection == Direction.EAST
+        || (map[(int) westSpacePVector.x - 1][(int) westSpacePVector.y] != 1 && pixelPosition.y > (westSpacePVector.y * Constants.SCALE) - FLUFF && pixelPosition.y < (westSpacePVector.y * Constants.SCALE) + FLUFF)
+    ) {
+      currentDirection = Direction.WEST;
+    }
   }
 
   public void updatePixelPosition(int[][] map) {
@@ -92,25 +154,15 @@ public  abstract class Mover {
 
   public void eastMovement(int[][] map) {
     System.out.println("EAST");
-    if (mapPosition.x + 1 < map.length) {
-      if (map[(int)mapPosition.x + 1][(int)mapPosition.y] == 1 && pixelPosition.x < m2P((int) mapPosition.x + 1) + 5) {
-        pixelPosition.x = (mapPosition.x)  * Constants.SCALE - 0.5f;
-        this.currentDirection = Direction.NONE;
-      } else {
-        pixelPosition.x += DEFAULT_SPEED;
-      }
+    if (!checkEastCollision(map)) {
+      pixelPosition.x += DEFAULT_SPEED;
     }
   }
 
   public void westMovement(int[][] map) {
     System.out.println("WEST");
-    if (mapPosition.x - 1 > 0) {
-      if (map[(int)mapPosition.x - 1][(int)mapPosition.y] == 1 && pixelPosition.x > m2P((int) mapPosition.x - 1) - 5) {
-        pixelPosition.x = (mapPosition.x) * Constants.SCALE + 0.5f;
-        this.currentDirection = Direction.NONE;
-      } else {
-        pixelPosition.x -= DEFAULT_SPEED;
-      }
+    if (!checkWestCollision(map)) {
+      pixelPosition.x -= DEFAULT_SPEED;
     }
   }
 
@@ -120,10 +172,10 @@ public  abstract class Mover {
         if (map[i][j] == 1) {
           PVector wallPVector = new PVector(i * Constants.SCALE, j * Constants.SCALE);
 
-          if (pixelPosition.y < wallPVector.y + Constants.SCALE + 5
+          if (pixelPosition.y < wallPVector.y + Constants.SCALE + FLUFF
               && pixelPosition.y > wallPVector.y
-              && pixelPosition.x > wallPVector.x - 5
-              && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + 5
+              && pixelPosition.x > wallPVector.x - FLUFF
+              && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + FLUFF
           ) {
             pixelPosition.y = (j + 1) * Constants.SCALE;
             currentDirection = Direction.NONE;
@@ -143,12 +195,58 @@ public  abstract class Mover {
         if (map[i][j] == 1) {
           PVector wallPVector = new PVector(i * Constants.SCALE, j * Constants.SCALE);
 
-          if (pixelPosition.y + Constants.SCALE > wallPVector.y - 5
+          if (pixelPosition.y + Constants.SCALE > wallPVector.y - FLUFF
               && pixelPosition.y + Constants.SCALE < wallPVector.y + Constants.SCALE
-              && pixelPosition.x > wallPVector.x - 5
-              && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + 5
+              && pixelPosition.x > wallPVector.x - FLUFF
+              && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + FLUFF
           ) {
             pixelPosition.y = (j - 1) * Constants.SCALE;
+            currentDirection = Direction.NONE;
+            System.out.println("COLLISION SOUTH");
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public boolean checkWestCollision(int[][] map) {
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[0].length; j++) {
+        if (map[i][j] == 1) {
+          PVector wallPVector = new PVector(i * Constants.SCALE, j * Constants.SCALE);
+
+          if (pixelPosition.x < wallPVector.x + Constants.SCALE + FLUFF
+              && pixelPosition.x > wallPVector.x
+              && pixelPosition.y > wallPVector.y - FLUFF
+              && pixelPosition.y + Constants.SCALE < wallPVector.y + Constants.SCALE + FLUFF
+          ) {
+            pixelPosition.x = (i + 1) * Constants.SCALE;
+            currentDirection = Direction.NONE;
+            System.out.println("COLLISION NORTH");
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public boolean checkEastCollision(int[][] map) {
+    for (int i = 0; i < map.length; i++) {
+      for (int j = 0; j < map[0].length; j++) {
+        if (map[i][j] == 1) {
+          PVector wallPVector = new PVector(i * Constants.SCALE, j * Constants.SCALE);
+
+          if (pixelPosition.x + Constants.SCALE > wallPVector.x - FLUFF
+              && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE
+              && pixelPosition.y > wallPVector.y - FLUFF
+              && pixelPosition.y + Constants.SCALE < wallPVector.y + Constants.SCALE + FLUFF
+          ) {
+            pixelPosition.x = (i - 1) * Constants.SCALE;
             currentDirection = Direction.NONE;
             System.out.println("COLLISION SOUTH");
             return true;

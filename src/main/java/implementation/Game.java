@@ -29,19 +29,19 @@ public class Game {
     if (app.keyPressed) {
       switch (app.keyCode) {
         case PApplet.UP: {
-          player.changeDirection(Direction.NORTH);
+          player.changeDirection(Direction.NORTH, map.getGrid());
           break;
         }
         case PApplet.DOWN: {
-          player.changeDirection(Direction.SOUTH);
+          player.changeDirection(Direction.SOUTH, map.getGrid());
           break;
         }
         case PApplet.LEFT: {
-          player.changeDirection(Direction.WEST);
+          player.changeDirection(Direction.WEST, map.getGrid());
           break;
         }
         case PApplet.RIGHT: {
-          player.changeDirection(Direction.EAST);
+          player.changeDirection(Direction.EAST, map.getGrid());
           break;
         }
       }
