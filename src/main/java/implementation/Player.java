@@ -1,7 +1,6 @@
 package implementation;
 
 import static interfaces.Direction.SOUTH;
-import static implementation.Constants.SCALE;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -18,6 +17,7 @@ public class Player extends Mover {
   }
 
   public void draw(PApplet app) {
+    app.imageMode(PApplet.CORNER);
     app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE, Constants.SCALE);
   }
 

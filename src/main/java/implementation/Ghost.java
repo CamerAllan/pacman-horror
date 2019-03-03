@@ -18,13 +18,15 @@ public class Ghost extends Mover {
   }
 
   public void draw(PApplet app) {
-    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y);
+    app.imageMode(PApplet.CORNER);
+    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE, Constants.SCALE);
   }
 
   @Override
   public void update(int[][] map) {
     convertPixelToMapPosition();
     updatePixelPosition(map);
+    makeGhostDirectionChoice();
   }
 
   @Override
