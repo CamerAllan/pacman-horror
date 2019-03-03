@@ -15,6 +15,7 @@ public  abstract class Mover {
   public PVector pixelPosition;
   public PVector mapPosition;
   public Direction currentDirection;
+  public Direction lastDirection;
 
   public PVector getPixelPosition() {
     return pixelPosition;
@@ -26,6 +27,13 @@ public  abstract class Mover {
 
   public Direction getCurrentDirection() {
     return currentDirection;
+  }
+
+  public void setCurrentDirection(Direction newDirection) {
+    if (currentDirection != Direction.NONE) {
+      this.lastDirection = currentDirection;
+    }
+    this.currentDirection = newDirection;
   }
 
   public void update(Map map) {
@@ -67,7 +75,7 @@ public  abstract class Mover {
         attemptWestTurn(map);
         break;
       default:
-//        currentDirection = moveDirection;
+//        setCurrentDirection(Direction;tion);
     }
   }
 
@@ -78,7 +86,7 @@ public  abstract class Mover {
         || currentDirection == Direction.SOUTH
         || ((map[(int) northSpacePVector.x][(int) northSpacePVector.y - 1] != 1) && pixelPosition.x > (northSpacePVector.x * Constants.SCALE) - FLUFF && pixelPosition.x < (northSpacePVector.x * Constants.SCALE) + FLUFF)
     ) {
-      currentDirection = Direction.NORTH;
+      setCurrentDirection(Direction.NORTH);
     }
   }
 
@@ -89,7 +97,7 @@ public  abstract class Mover {
         || currentDirection == Direction.NORTH
         || (map[(int) southSpacePVector.x][(int) southSpacePVector.y + 1] != 1 && pixelPosition.x > (southSpacePVector.x * Constants.SCALE) - FLUFF && pixelPosition.x < (southSpacePVector.x * Constants.SCALE) + FLUFF)
     ) {
-      currentDirection = Direction.SOUTH;
+      setCurrentDirection(Direction.SOUTH);
     }
   }
 
@@ -100,7 +108,7 @@ public  abstract class Mover {
         || currentDirection == Direction.WEST
         || (map[(int) eastSpacePVector.x + 1][(int) eastSpacePVector.y] != 1 && pixelPosition.y > (eastSpacePVector.y * Constants.SCALE) - FLUFF && pixelPosition.y < (eastSpacePVector.y * Constants.SCALE) + FLUFF)
     ) {
-      currentDirection = Direction.EAST;
+      setCurrentDirection(Direction.EAST);
     }
   }
 
@@ -112,7 +120,7 @@ public  abstract class Mover {
         || currentDirection == Direction.EAST
         || (map[(int) westSpacePVector.x - 1][(int) westSpacePVector.y] != 1 && pixelPosition.y > (westSpacePVector.y * Constants.SCALE) - FLUFF && pixelPosition.y < (westSpacePVector.y * Constants.SCALE) + FLUFF)
     ) {
-      currentDirection = Direction.WEST;
+      setCurrentDirection(Direction.WEST);
     }
   }
 
@@ -178,7 +186,7 @@ public  abstract class Mover {
               && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + FLUFF
           ) {
             pixelPosition.y = (j + 1) * Constants.SCALE;
-            currentDirection = Direction.NONE;
+            setCurrentDirection(Direction.NONE);
             System.out.println("COLLISION NORTH");
             return true;
           }
@@ -201,7 +209,7 @@ public  abstract class Mover {
               && pixelPosition.x + Constants.SCALE < wallPVector.x + Constants.SCALE + FLUFF
           ) {
             pixelPosition.y = (j - 1) * Constants.SCALE;
-            currentDirection = Direction.NONE;
+            setCurrentDirection(Direction.NONE);
             System.out.println("COLLISION SOUTH");
             return true;
           }
@@ -224,7 +232,7 @@ public  abstract class Mover {
               && pixelPosition.y + Constants.SCALE < wallPVector.y + Constants.SCALE + FLUFF
           ) {
             pixelPosition.x = (i + 1) * Constants.SCALE;
-            currentDirection = Direction.NONE;
+            setCurrentDirection(Direction.NONE);
             System.out.println("COLLISION NORTH");
             return true;
           }
@@ -247,7 +255,7 @@ public  abstract class Mover {
               && pixelPosition.y + Constants.SCALE < wallPVector.y + Constants.SCALE + FLUFF
           ) {
             pixelPosition.x = (i - 1) * Constants.SCALE;
-            currentDirection = Direction.NONE;
+            setCurrentDirection(Direction.NONE);
             System.out.println("COLLISION SOUTH");
             return true;
           }
