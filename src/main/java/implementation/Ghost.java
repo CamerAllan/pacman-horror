@@ -1,11 +1,8 @@
 package implementation;
 
-import static interfaces.Direction.NORTH;
 import static interfaces.Direction.SOUTH;
 
 import interfaces.Direction;
-import interfaces.IGhost;
-import interfaces.Mover;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -17,15 +14,16 @@ public class Ghost extends Mover {
     this.mapPosition = mapPosition;
     this.pixelPosition = new PVector();
     this.currentDirection = SOUTH;
+    this.convertMapToPixelPosition();
   }
 
-  public void draw(PApplet app, int scale) {
+  public void draw(PApplet app) {
     app.image(this.image, this.pixelPosition.x, this.pixelPosition.y);
   }
 
   @Override
   public void update(int[][] map) {
-    convertPixelToMapPosition(DEFAULT_SCALE);
+    convertPixelToMapPosition();
     updatePixelPosition(map);
   }
 
@@ -44,8 +42,6 @@ public class Ghost extends Mover {
       case WEST:
         westMovement(map);
         break;
-      default:
-        System.out.println("I want to die :))");
     }
   }
 
@@ -60,7 +56,7 @@ public class Ghost extends Mover {
 
   @Override
   public void eastMovement(int[][] map) {
-    if (mapPosition.x < map[0].length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
+    if (mapPosition.x + Constants.SCALE < map[0].length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
       pixelPosition.x += DEFAULT_SPEED;
     } else {
       makeGhostDirectionChoice();
@@ -69,7 +65,7 @@ public class Ghost extends Mover {
 
   @Override
   public void southMovement(int[][] map) {
-    if (mapPosition.y < map.length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
+    if (mapPosition.y + Constants.SCALE < map.length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
       pixelPosition.y += DEFAULT_SPEED;
     } else {
       makeGhostDirectionChoice();

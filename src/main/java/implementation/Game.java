@@ -26,18 +26,24 @@ public class Game {
   }
 
   private void handleInput(PApplet app) {
-    switch (app.keyCode){
-      case PApplet.UP: {
-        player.changeDirection(Direction.NORTH);
-      }
-      case PApplet.DOWN: {
-        player.changeDirection(Direction.SOUTH);
-      }
-      case PApplet.LEFT: {
-        player.changeDirection(Direction.WEST);
-      }
-      case PApplet.RIGHT: {
-        player.changeDirection(Direction.EAST);
+    if (app.keyPressed) {
+      switch (app.keyCode) {
+        case PApplet.UP: {
+          player.changeDirection(Direction.NORTH);
+          break;
+        }
+        case PApplet.DOWN: {
+          player.changeDirection(Direction.SOUTH);
+          break;
+        }
+        case PApplet.LEFT: {
+          player.changeDirection(Direction.WEST);
+          break;
+        }
+        case PApplet.RIGHT: {
+          player.changeDirection(Direction.EAST);
+          break;
+        }
       }
     }
   }
@@ -61,11 +67,11 @@ public class Game {
     }
   }
 
-  public void draw(PApplet app, int scale) {
-    this.map.draw(app, scale);
-    this.player.draw(app, scale);
+  public void draw(PApplet app) {
+    this.map.draw(app);
+    this.player.draw(app);
     for (Ghost ghost: this.ghosts) {
-      ghost.draw(app, scale);
+      ghost.draw(app);
     }
   }
 }

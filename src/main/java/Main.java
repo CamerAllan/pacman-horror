@@ -23,7 +23,7 @@ public class Main extends PApplet {
 
   public void setup() {
     Map map = new Map();
-    Player player = new Player(this.loadImage("pacman-open.png"), new PVector(3, 3));
+    Player player = new Player(this.loadImage("pacman-open.png"), new PVector(11, 10));
     List<Ghost> ghosts = new ArrayList<>();
     this.game = new Game(map, player, ghosts);
 
@@ -31,7 +31,7 @@ public class Main extends PApplet {
 
   public void draw() {
     this.game.update(this);
-    this.game.draw(this, 25);
+    this.game.draw(this);
   }
 
   public void keyPressed() {

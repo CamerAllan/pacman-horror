@@ -1,8 +1,8 @@
 package implementation;
 
 import static interfaces.Direction.SOUTH;
+import static implementation.Constants.SCALE;
 
-import interfaces.Mover;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -14,10 +14,11 @@ public class Player extends Mover {
     this.mapPosition = mapPosition;
     this.pixelPosition = new PVector();
     this.currentDirection = SOUTH;
+    this.convertMapToPixelPosition();
   }
 
-  public void draw(PApplet app, int scale) {
-    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, scale , scale );
+  public void draw(PApplet app) {
+    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE, Constants.SCALE);
   }
 
 }

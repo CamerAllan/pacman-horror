@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public enum Direction {
-  NORTH, SOUTH, EAST, WEST;
+  NORTH, SOUTH, EAST, WEST, NONE;
 
   private static final List<Direction> DIRECTIONS =
       Collections.unmodifiableList(Arrays.asList(values()));

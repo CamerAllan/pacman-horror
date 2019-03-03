@@ -39,18 +39,18 @@ public class Map {
         return floorplan;
     }
 
-    public PImage draw(PApplet app, int scale) {
+    public PImage draw(PApplet app) {
 
         app.background(0,0,0);
         for(int i = 0; i< floorplan.length; i++) {
             for(int j = 0; j< floorplan[i].length; j++) {
                 app.fill(107,2,2);
                 if(floorplan[i][j] == 1) {
-                    app.rect((i * scale), (j * scale), scale, scale);
+                    app.rect((i * Constants.SCALE), (j * Constants.SCALE), Constants.SCALE, Constants.SCALE);
                 }
                 app.fill(160,109,0);
                 if(floorplan[i][j] == 2) {
-                    app.ellipse((i * scale)+4, (j * scale)+4, 2, 2);
+                    app.ellipse((i * Constants.SCALE)+4, (j * Constants.SCALE)+4, 2, 2);
                 }
             }
         }
