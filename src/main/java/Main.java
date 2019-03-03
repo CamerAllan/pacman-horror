@@ -24,7 +24,16 @@ public class Main extends PApplet {
 
   public void setup() {
     Map map = new Map();
-    Player player = new Player(this.loadImage("pacman-open.png"), new PVector(2, 5));
+    Player player = new Player(this.loadImage("pacman-closed.png"),
+            this.loadImage("pacman-middle-n.png"),
+            this.loadImage("pacman-open-n.png"),
+            this.loadImage("pacman-middle-s.png"),
+            this.loadImage("pacman-open-s.png"),
+            this.loadImage("pacman-middle-e.png"),
+            this.loadImage("pacman-open-e.png"),
+            this.loadImage("pacman-open-w.png"),
+            this.loadImage("pacman-middle-w.png"),
+            new PVector(2, 5));
     List<Ghost> ghosts = new ArrayList<>();
     ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3)));
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
