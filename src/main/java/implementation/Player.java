@@ -8,6 +8,9 @@ import processing.core.PVector;
 
 public class Player extends Mover {
 
+  int score;
+
+  public Player(PImage image, PVector mapPosition) {
   PImage imageMiddleN;
   PImage imageOpenN;
   PImage imageMiddleS;
@@ -36,6 +39,7 @@ public class Player extends Mover {
     this.imageMiddleW = imageMiddleW;
     this.imageOpenW = imageOpenW;
     imageCounter = 0;
+    this.score = 0;
   }
 
   public void draw(PApplet app) {
@@ -64,4 +68,23 @@ public class Player extends Mover {
     if(imageCounter > 30) imageCounter = 0;
   }
 
+  @Override
+  public void update(Map map) {
+
+    super.update(map);
+    if (map.getGrid()[(int) this.mapPosition.x][(int) this.mapPosition.y] == 2) {
+      map.eat((int) this.mapPosition.x, (int) this.mapPosition.y);
+      score++;
+    }
+
+    if ((int) this.mapPosition.x == 0 && (int) this.mapPosition.y == 11) {
+      this.mapPosition.x = map.getGrid()[0].length - 2;
+      this.convertMapToPixelPosition();
+    }
+
+    if ((int) this.mapPosition.x == map.getGrid()[0].length - 1 && (int) this.mapPosition.y == 11) {
+      this.mapPosition.x = 1;
+      this.convertMapToPixelPosition();
+    }
+  }
 }
