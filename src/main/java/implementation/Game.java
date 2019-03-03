@@ -15,15 +15,21 @@ public class Game {
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
+  long gameStart;
 
   public Game(Map map, Player player, List<Ghost> ghosts, Light light) {
     this.map = map;
     this.player = player;
     this.ghosts = ghosts;
     this.light = light;
+    this.gameStart = System.currentTimeMillis();
   }
 
   public void update(PApplet app) {
+    if (System.currentTimeMillis() - this.gameStart > 5000) {
+      this.map.unleash();
+    }
+
     handleInput(app);
     updatePlayer();
     updateLight();
@@ -90,7 +96,7 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       ghost.draw(app);
     }
-    this.light.draw(app);
+//    this.light.draw(app);
     app.color(255);
     app.textSize(30);
     app.textMode(PConstants.CENTER);

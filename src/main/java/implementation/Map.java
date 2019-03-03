@@ -112,4 +112,13 @@ public class Map {
     public void eat(int x, int y) {
       this.floorplan[x][y] = 0;
     }
+
+    public void unleash() {
+        this.floorplan[9][10] = 0;
+        this.floorplan[11][10] = 0;
+        this.floorplan[10][12] = 0;
+        this.floorplanAI[9][10] = 0;
+        this.floorplanAI[11][10] = 0;
+        this.floorplanAI[10][12] = 0;
+    }
 }

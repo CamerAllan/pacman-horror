@@ -9,11 +9,6 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
-import ddf.minim.signals.*;
-import ddf.minim.spi.*;
-import ddf.minim.ugens.*;
 
 public class Main extends PApplet {
 
@@ -55,8 +50,13 @@ public class Main extends PApplet {
             this.loadImage("pacman-open-w.png"),
             this.loadImage("pacman-middle-w.png"),
             new PVector(2, 5));
+
     List<Ghost> ghosts = new ArrayList<>();
-    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(3, 3), map));
+    ghosts.add(new Ghost(this.loadImage("ghost-blue.png"), new PVector(9, 11), map));
+    ghosts.add(new Ghost(this.loadImage("ghost-orange.png"), new PVector(11, 11), map));
+    ghosts.add(new Ghost(this.loadImage("ghost-pink.png"), new PVector(10, 11), map));
+    ghosts.add(new Ghost(this.loadImage("ghost-red.png"), new PVector(10, 11), map));
+
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
     this.game = new Game(map, player, ghosts, light);
 
