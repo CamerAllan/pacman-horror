@@ -82,9 +82,9 @@ public class Main extends PApplet {
 //    deathPlayer.rewind();
 //    deathPlayer.play();
 
-   // menuPlayer.loop();
+    menuPlayer.loop();
 
-    movePlayer.loop();
+//    movePlayer.loop();
 
   }
 

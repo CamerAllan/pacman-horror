@@ -44,7 +44,7 @@ public class Game {
       this.map.unleash();
     }
 
-    handleInput(app);
+    handleInput(app, menuPlayer, movePlayer);
     if(startedGame) {
         updatePlayer(app, screamPlayer);
         updateLight();
@@ -85,7 +85,7 @@ public class Game {
     }
   }
 
-  private void handleInput(PApplet app) {
+  private void handleInput(PApplet app, AudioPlayer menuPlayer, AudioPlayer movePlayer) {
     if (app.keyPressed && startedGame) {
       switch (app.keyCode) {
         case PApplet.UP: {
@@ -106,7 +106,11 @@ public class Game {
         }
       }
     }
-    else if(app.keyPressed && app.key == ' ') startedGame = true;
+    else if(app.keyPressed && app.key == ' ') {
+        menuPlayer.pause();
+        startedGame = true;
+        movePlayer.loop();
+    }
   }
 
   int seenTimer;
