@@ -7,6 +7,8 @@ import processing.core.PApplet;
 
 public class Game {
 
+  private final int SIGHT_DISTANCE = 4;
+
   Map map;
   Player player;
   List<Ghost> ghosts;
@@ -53,6 +55,12 @@ public class Game {
 
   private void updatePlayer() {
     player.update(this.map);
+    for (Ghost ghost : this.ghosts) {
+      double distance = Math.sqrt(Math.pow(ghost.getMapPosition().x - player.getMapPosition().x, 2) + Math.pow(ghost.getMapPosition().y - player.getMapPosition().y, 2));
+      if (distance < SIGHT_DISTANCE) {
+        System.out.println("I c u");
+      }
+    }
   }
 
   private void updateGhosts() {
@@ -81,6 +89,6 @@ public class Game {
     for (Ghost ghost: this.ghosts) {
       ghost.draw(app);
     }
-    this.light.draw(app, Constants.SCALE);
+    this.light.draw(app);
   }
 }
