@@ -105,8 +105,8 @@ public class Map {
                     app.ellipse((i * Constants.SCALE) + 14, (j * Constants.SCALE) + 14, 10, 10);
                 }
                 app.fill(255);
-                if(floorplan[i][j] == 2) {
-                    app.ellipse((i * Constants.SCALE) + 14, (j * Constants.SCALE) + 14, 10, 10);
+                if(floorplan[i][j] == 3) {
+                    app.ellipse((i * Constants.SCALE) + 14, (j * Constants.SCALE) + 14, 15, 15);
                 }
             }
         }
@@ -125,5 +125,14 @@ public class Map {
         this.floorplanAI[9][10] = 0;
         this.floorplanAI[11][10] = 0;
         this.floorplanAI[10][12] = 0;
+    }
+
+    public void leash() {
+        this.floorplan[9][10] = 1;
+        this.floorplan[11][10] = 1;
+        this.floorplan[10][12] = 1;
+        this.floorplanAI[9][10] = 1;
+        this.floorplanAI[11][10] = 1;
+        this.floorplanAI[10][12] = 1;
     }
 }

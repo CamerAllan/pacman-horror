@@ -75,7 +75,6 @@ public  abstract class Mover {
         attemptWestTurn(map);
         break;
       default:
-//        setCurrentDirection(Direction;tion);
     }
   }
 
@@ -144,14 +143,12 @@ public  abstract class Mover {
   }
 
   public void northMovement(int[][] map) {
-    System.out.println("NORTH");
     if (!checkNorthCollision(map)) {
       pixelPosition.y -= DEFAULT_SPEED;
     }
   }
 
   public void southMovement(int[][] map) {
-    System.out.println("SOUTH");
     if (!checkSouthCollision(map)) {
       pixelPosition.y += DEFAULT_SPEED;
     }
@@ -161,14 +158,12 @@ public  abstract class Mover {
 
 
   public void eastMovement(int[][] map) {
-    System.out.println("EAST");
     if (!checkEastCollision(map)) {
       pixelPosition.x += DEFAULT_SPEED;
     }
   }
 
   public void westMovement(int[][] map) {
-    System.out.println("WEST");
     if (!checkWestCollision(map)) {
       pixelPosition.x -= DEFAULT_SPEED;
     }
@@ -187,7 +182,6 @@ public  abstract class Mover {
           ) {
             pixelPosition.y = (j + 1) * Constants.SCALE;
             setCurrentDirection(Direction.NONE);
-            System.out.println("COLLISION NORTH");
             return true;
           }
         }
@@ -210,7 +204,6 @@ public  abstract class Mover {
           ) {
             pixelPosition.y = (j - 1) * Constants.SCALE;
             setCurrentDirection(Direction.NONE);
-            System.out.println("COLLISION SOUTH");
             return true;
           }
         }
@@ -233,7 +226,6 @@ public  abstract class Mover {
           ) {
             pixelPosition.x = (i + 1) * Constants.SCALE;
             setCurrentDirection(Direction.NONE);
-            System.out.println("COLLISION NORTH");
             return true;
           }
         }
@@ -256,7 +248,6 @@ public  abstract class Mover {
           ) {
             pixelPosition.x = (i - 1) * Constants.SCALE;
             setCurrentDirection(Direction.NONE);
-            System.out.println("COLLISION SOUTH");
             return true;
           }
         }

@@ -1,6 +1,10 @@
 package implementation;
 
-import static interfaces.Direction.*;
+import static interfaces.Direction.EAST;
+import static interfaces.Direction.NONE;
+import static interfaces.Direction.NORTH;
+import static interfaces.Direction.SOUTH;
+import static interfaces.Direction.WEST;
 
 import interfaces.Direction;
 import processing.core.PApplet;
@@ -24,9 +28,9 @@ public class Player extends Mover {
 
   long powerUpGot;
 
-  public Player(PImage image,  PImage imageMiddleN, PImage imageOpenN, PImage imageMiddleS,
-                PImage imageOpenS, PImage imageMiddleE, PImage imageOpenE, PImage imageMiddleW,
-                PImage imageOpenW, PVector mapPosition) {
+  public Player(PImage image, PImage imageMiddleN, PImage imageOpenN, PImage imageMiddleS,
+      PImage imageOpenS, PImage imageMiddleE, PImage imageOpenE, PImage imageMiddleW,
+      PImage imageOpenW, PVector mapPosition) {
     this.image = image;
     this.mapPosition = mapPosition;
     this.pixelPosition = new PVector();
@@ -54,29 +58,45 @@ public class Player extends Mover {
       drawPacMan(app, currentDirection);
       imageCounter++;
     }
-    if(imageCounter > 30) imageCounter = 0;
+    if (imageCounter > 30) {
+      imageCounter = 0;
+    }
   }
 
   public void drawPacMan(PApplet app, Direction currentMovingDirection) {
-    if(currentMovingDirection == SOUTH) {
-      if(imageCounter / 10 == 1) app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else if(imageCounter / 10 == 2) app.image(imageMiddleS, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else app.image(imageOpenS, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-    }
-    else if(currentMovingDirection == NORTH) {
-      if(imageCounter / 10 == 1) app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else if(imageCounter / 10 == 2) app.image(imageMiddleN, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else app.image(imageOpenN, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);;
-    }
-    else if(currentMovingDirection == WEST) {
-      if(imageCounter / 10 == 1) app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else if(imageCounter / 10 == 2) app.image(imageMiddleW, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else app.image(imageOpenW, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-    }
-    else if(currentMovingDirection == EAST) {
-      if(imageCounter / 10 == 1) app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else if(imageCounter / 10 == 2) app.image(imageMiddleE, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
-      else app.image(imageOpenE, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+    if (currentMovingDirection == SOUTH) {
+      if (imageCounter / 10 == 1) {
+        app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else if (imageCounter / 10 == 2) {
+        app.image(imageMiddleS, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else {
+        app.image(imageOpenS, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      }
+    } else if (currentMovingDirection == NORTH) {
+      if (imageCounter / 10 == 1) {
+        app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else if (imageCounter / 10 == 2) {
+        app.image(imageMiddleN, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else {
+        app.image(imageOpenN, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      }
+      ;
+    } else if (currentMovingDirection == WEST) {
+      if (imageCounter / 10 == 1) {
+        app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else if (imageCounter / 10 == 2) {
+        app.image(imageMiddleW, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else {
+        app.image(imageOpenW, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      }
+    } else if (currentMovingDirection == EAST) {
+      if (imageCounter / 10 == 1) {
+        app.image(this.image, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else if (imageCounter / 10 == 2) {
+        app.image(imageMiddleE, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      } else {
+        app.image(imageOpenE, pixelPosition.x, pixelPosition.y, Constants.SCALE, Constants.SCALE);
+      }
     }
   }
 
@@ -95,14 +115,16 @@ public class Player extends Mover {
       powerUpGot = System.currentTimeMillis();
     }
 
-    if ((int) this.mapPosition.x == 0 && (int) this.mapPosition.y == 11) {
-      this.mapPosition.x = map.getGrid()[0].length - 2;
+    if ((int) this.mapPosition.x == 1 && (int) this.mapPosition.y == 11) {
+      this.mapPosition.x = map.getGrid().length - 2;
       this.convertMapToPixelPosition();
-    }
+    } else {
 
-    if ((int) this.mapPosition.x == map.getGrid()[0].length - 1 && (int) this.mapPosition.y == 11) {
-      this.mapPosition.x = 1;
-      this.convertMapToPixelPosition();
+      if ((int) this.mapPosition.x == map.getGrid()[0].length - 1
+          && (int) this.mapPosition.y == 11) {
+        this.mapPosition.x = 2;
+        this.convertMapToPixelPosition();
+      }
     }
   }
 }

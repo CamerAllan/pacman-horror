@@ -5,7 +5,6 @@ import static interfaces.Direction.SOUTH;
 import interfaces.Direction;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.zip.DeflaterInputStream;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -13,9 +12,11 @@ import processing.core.PVector;
 public class Ghost extends Mover {
 
   AStarSearch pathFinder;
+  PImage otherImage;
 
-  public Ghost(PImage image, PVector mapPosition, Map map) {
+  public Ghost(PImage image, PImage otherImage, PVector mapPosition, Map map) {
     this.image = image;
+    this.otherImage = otherImage;
     this.mapPosition = mapPosition;
     this.pixelPosition = new PVector();
     this.currentDirection = SOUTH;
@@ -23,9 +24,15 @@ public class Ghost extends Mover {
     this.pathFinder = new AStarSearch(map.getGrid());
   }
 
-  public void draw(PApplet app) {
+  public void draw(PApplet app, boolean edible) {
     app.imageMode(PApplet.CORNER);
-    app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE, Constants.SCALE);
+    if (edible) {
+      app.image(this.otherImage, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE,
+          Constants.SCALE);
+    } else {
+      app.image(this.image, this.pixelPosition.x, this.pixelPosition.y, Constants.SCALE,
+          Constants.SCALE);
+    }
   }
 
   @Override
@@ -85,5 +92,11 @@ public class Ghost extends Mover {
     }
 
     return currentDirection;
+  }
+
+  public void die() {
+    this.mapPosition.x = 10;
+    this.mapPosition.y = 11;
+    this.convertMapToPixelPosition();
   }
 }
