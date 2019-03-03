@@ -58,7 +58,7 @@ public class Main extends PApplet {
     ghosts.add(new Ghost(this.loadImage("ghost-red.png"), new PVector(10, 11), map));
 
     Light light = new Light(this.loadImage("light.png"), player.getPixelPosition());
-    this.game = new Game(map, player, ghosts, light);
+    this.game = new Game(this, map, player, ghosts, light);
 
     System.out.println(sketchPath());
     minim = new Minim(this);
@@ -81,10 +81,12 @@ public class Main extends PApplet {
 
    // menuPlayer.loop();
 
+    movePlayer.loop();
+
   }
 
   public void draw() {
-    this.game.update(this);
+    this.game.update(this, menuPlayer, background1Player, background2Player, background3Player, background4Player, movePlayer, deathPlayer, yumPlayer, ghostDeathPlayer, screamPlayer, screechPlayer, surprisePlayer);
     this.game.draw(this);
   }
 }
