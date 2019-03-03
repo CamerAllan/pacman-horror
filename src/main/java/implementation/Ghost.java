@@ -3,18 +3,24 @@ package implementation;
 import static interfaces.Direction.SOUTH;
 
 import interfaces.Direction;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.zip.DeflaterInputStream;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
 public class Ghost extends Mover {
 
-  public Ghost(PImage image, PVector mapPosition) {
+  AStarSearch pathFinder;
+
+  public Ghost(PImage image, PVector mapPosition, Map map) {
     this.image = image;
     this.mapPosition = mapPosition;
     this.pixelPosition = new PVector();
     this.currentDirection = SOUTH;
     this.convertMapToPixelPosition();
+    this.pathFinder = new AStarSearch(map.getGrid());
   }
 
   public void draw(PApplet app) {
@@ -25,66 +31,59 @@ public class Ghost extends Mover {
   @Override
   public void update(Map map) {
     convertPixelToMapPosition();
-    updatePixelPosition(map.getGrid());
-    makeGhostDirectionChoice();
+    updatePixelPosition(map.getAIGrid());
+    makeGhostDirectionChoice(map.getAIGrid());
   }
 
-  @Override
-  public void updatePixelPosition(int[][] map) {
-    switch(currentDirection) {
-      case NORTH:
-        northMovement(map);
-        break;
-      case EAST:
-        eastMovement(map);
-        break;
-      case SOUTH:
-        southMovement(map);
-        break;
-      case WEST:
-        westMovement(map);
-        break;
-    }
-  }
+//  @Override
+//  public void convertPixelToMapPosition() {
+//    mapPosition.x = Math.round((pixelPosition.x)  / (float) Constants.SCALE);
+//    mapPosition.y = Math.round((pixelPosition.y) / (float) Constants.SCALE);
+//  }
 
-  @Override
-  public void northMovement(int[][] map) {
-    if (mapPosition.y > 0 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
-      pixelPosition.y -= DEFAULT_SPEED;
-    } else {
-      makeGhostDirectionChoice();
-    }
-  }
-
-  @Override
-  public void eastMovement(int[][] map) {
-    if (mapPosition.x + Constants.SCALE < map[0].length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
-      pixelPosition.x += DEFAULT_SPEED;
-    } else {
-      makeGhostDirectionChoice();
-    }
-  }
-
-  @Override
-  public void southMovement(int[][] map) {
-    if (mapPosition.y + Constants.SCALE < map.length - 1 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
-      pixelPosition.y += DEFAULT_SPEED;
-    } else {
-      makeGhostDirectionChoice();
-    }
-  }
-
-  @Override
-  public void westMovement(int[][] map) {
-    if (mapPosition.x > 0 && map[(int) mapPosition.x][(int) mapPosition.y] == 0) {
-      pixelPosition.x -= DEFAULT_SPEED;
-    } else {
-      makeGhostDirectionChoice();
-    }
-  }
-
-  public void makeGhostDirectionChoice() {
+  public void makeGhostDirectionChoice(int[][] map) {
     // TODO: Make smarter. Add A* decision sometimes. Add choosing random not including current dirrection
-    currentDirection = Direction.randomDirection();
+    Direction nextDirection = pursueMode();
+
+    super.changeDirection(nextDirection, map);
+  }
+
+  public Direction pursueMode() {
+    Random random = new Random();
+
+    if (random.nextInt(10) == 1) {
+      return Direction.randomDirection();
+    } else {
+      ArrayList<AStarNode> result = pathFinder.search((int) Game.player.mapPosition.x, (int) Game.player.mapPosition.y, (int) this.mapPosition.x, (int) this.mapPosition.y) ;
+
+      return getDirectionToAStarNode(result);
+    }
+  }
+
+  public Direction getDirectionToAStarNode(ArrayList<AStarNode> result) {
+    // failure is represented as a null return
+    if (result != null && result.size() > 0) {
+      AStarNode nextNode = result.get(0);
+
+      if (nextNode.getRow() == (int) mapPosition.x && nextNode.getCol() == (int) mapPosition.y) {
+        if (result.size() > 1) {
+          nextNode = result.get(1);
+        } else {
+          return currentDirection;
+        }
+      }
+
+      if (nextNode.getCol() < (int) mapPosition.y) {
+        return Direction.NORTH;
+      } else if (nextNode.getCol() > (int) mapPosition.y) {
+        return Direction.SOUTH;
+      } else if (nextNode.getRow() < (int) mapPosition.x) {
+        return Direction.WEST;
+      } else if (nextNode.getRow() > (int) mapPosition.x) {
+        return Direction.EAST;
+      }
+    }
+
+    return currentDirection;
   }
 }

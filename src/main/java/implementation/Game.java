@@ -7,8 +7,8 @@ import processing.core.PApplet;
 
 public class Game {
 
-  Map map;
-  Player player;
+  public Map map;
+  public static Player player;
   List<Ghost> ghosts;
   GameStatus gameStatus;
   Light light;
